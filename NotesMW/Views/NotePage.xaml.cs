@@ -6,7 +6,7 @@ public partial class NotePage : ContentPage
 	string _filename = Path.Combine(FileSystem.AppDataDirectory, "notes.txt");
 	public string ItemId
 	{
-		set => LoadNote(value)
+		set => LoadNote(value);
 	}
 	public NotePage()
 	{
@@ -34,4 +34,13 @@ public partial class NotePage : ContentPage
 		await Shell.Current.GoToAsync("..");
 		TextEditor.Text = string.Empty;
 	}
+
+    private async void DeleteButton_Clicked(object sender, EventArgs e)
+    {
+		if (BindingContext is Models.Note note)
+			if (File.Exists(note.Filename))
+				File.Delete(note.Filename);
+		await Shell.Current.GoToAsync("..");
+        TextEditor.Text = string.Empty;
+    }
 }
